@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audi RS7 Sportback | GeorgAudis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --audi-red: #d50000;
+            --audi-black: #000000;
+            --audi-dark: #121212;
+            --audi-light: #f8f8f8;
+            --audi-gray: #e5e5e5;
+            --audi-silver: #cccccc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @font-face {
+            font-family: 'Audi Type';
+            src: url('https://www.audi.com/etc/clientlibs/audi/fonts/AudiType-VF.woff2') format('woff2-variations');
+            font-weight: 100 900;
+            font-display: swap;
+        }
+        
+        body {
+            font-family: 'Audi Type', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--audi-dark);
+            background-color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Гладко скролене */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Header стилове */
+        header {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(0, 0, 0, 0.95);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            color: var(--audi-red);
+            font-size: 24px;
+        }
+        
+        .logo-text {
+            font-family: 'Audi Type', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .logo-text span {
+            color: var(--audi-red);
+            font-weight: 800;
+        }
+        
+        /* Навигация */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 35px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            letter-spacing: 0.8px;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+            position: relative;
+            text-transform: uppercase;
+        }
+        
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--audi-red);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::before {
+            width: 100%;
+        }
+        
+        nav ul li a:hover {
+            color: var(--audi-red);
+        }
+        
+        /* Hero секция */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), 
+                        url('./rs7sportback.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            min-height: 800px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 650px;
+            padding: 0 80px;
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        .hero h1 {
+            font-size: 62px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            max-width: 500px;
+        }
+        
+        /* Копчета */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--audi-red);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            background-color: #b30000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--audi-red);
+        }
+        
+        .btn i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Модели секция */
+        .models-section {
+            padding: 120px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            background-color: var(--audi-light);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+            font-size: 42px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            position: relative;
+            color: var(--audi-dark);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--audi-red);
+            margin: 20px auto 0;
+        }
+        
+        .model-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 50px;
+            display: flex;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .model-image {
+            flex: 1;
+            min-height: 400px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .model-info {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .model-info h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: var(--audi-black);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .model-info p {
+            margin-bottom: 30px;
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--audi-dark);
+        }
+        
+        .specs {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .spec-item {
+            text-align: center;
+        }
+        
+        .spec-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--audi-red);
+            margin-bottom: 5px;
+        }
+        
+        .spec-label {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--audi-dark);
+        }
+        
+        .price {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--audi-red);
+            margin-bottom: 30px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+        }
+        
+        /* Футер */
+        footer {
+            background-color: var(--audi-dark);
+            color: white;
+            padding: 80px 40px 40px;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .footer-column h4 {
+            font-size: 18px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--audi-red);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--audi-silver);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--audi-red);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--audi-red);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            font-size: 14px;
+            color: var(--audi-silver);
+        }
+        
+        .legal-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .legal-links a {
+            color: var(--audi-silver);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .legal-links a:hover {
+            color: var(--audi-red);
+        }
+        
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Медийни заявки */
+        @media (max-width: 1200px) {
+            .hero h1 {
+                font-size: 52px;
+            }
+            
+            .model-card {
+                flex-direction: column;
+            }
+            
+            .model-image {
+                min-height: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 20px;
+            }
+            
+            nav ul li {
+                margin-left: 20px;
+            }
+            
+            .hero {
+                min-height: 700px;
+                background-attachment: scroll;
+            }
+            
+            .hero-content {
+                padding: 0 40px;
+                text-align: center;
+            }
+            
+            .hero h1 {
+                font-size: 42px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-outline {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .model-info {
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            
+            nav {
+                margin-top: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .models-section {
+                padding: 80px 20px;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+            
+            .specs {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="header-container">
+            <div class="language-switcher">
+    <button id="lang-bg" class="active">BG</button>
+    <button id="lang-en">EN</button>
+</div>
+
+            <a href="index.html" class="logo">
+                <i class="fas fa-car logo-icon"></i>
+                <span class="logo-text">Georg<span>Audis</span></span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Начало</a></li>
+                    <li><a href="model.html">Модел</a></li>
+                    <li><a href="поръчка.html">Поръчка</a></li>
+                    <li><a href="галерия.html">Галерия</a></li>
+                    <li><a href="контакти.html">Контакти</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1 data-i18n="hero_title">Audi RS7 Sportback</h1>
+            <p data-i18n="hero_text"></p>Върхът на инженерното изкуство и дизайн. Изживейте неподправена мощност и лукс в чист вид.</p>
+            <div class="btn-group">
+                <a href="model.html" class="btn">Разгледайте модела <i class="fas fa-arrow-right"></i></a>
+                <a href="поръчка.html" class="btn btn-outline">Поръчка <i class="fas fa-cog"></i></a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="models-section">
+        <h2 class="section-title">RS7 Sportback</h2>
+        
+        <div class="model-card">
+            <div class="model-image" style="background-image: url('./LIMITED.png');"></div>
+            <div class="model-info">
+                <h3>RS7 P780 MANSORY</h3>
+                <p>Със своя 4.0-литров V8 битурбо двигател, RS7 P780 MANSORY предлага 780 к.с. и 1000 Nm въртящ момент. Интелигентното цялостно управление на шасито и квеститната система за задвижване на четирите колела quattro гарантират динамично и безопасно изживяване.</p>
+                
+                <div class="specs">
+                    <div class="spec-item">
+                        <div class="spec-value">3.0s</div>
+                        <div class="spec-label">0-100 km/h</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-value">780 к.с.</div>
+                        <div class="spec-label">Мощност</div>
+                    </div>
+                    <div class="spec-item">
+                        <div class="spec-value">320 km/h</div>
+                        <div class="spec-label">Макс. скорост</div>
+                    </div>
+                </div>
+                
+                <div class="price">От 500 000 лв.</div>
+                
+                <div class="btn-group">
+                    <a href="контакти.html" class="btn">До Запитване <i class="fas fa-arrow-right"></i></a>
+                    <a href="галерия.html" class="btn btn-outline">Галерия <i class="fas fa-images"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>GeorgAudis</h4>
+                <ul>
+                    <li><a href="index.html">Начало</a></li>
+                    <li><a href="model.html">Модели</a></li>
+                    <li><a href="поръчка.html">Поръчка</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Информация</h4>
+                <ul>
+                    <li><a href="галерия.html">Галерия</a></li>
+                    <li><a href="контакти.html">Контакти</a></li>
+                    <li><a href="#">За нас</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Контакти</h4>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +359 89 473 4471</li>
+                    <li><i class="fas fa-envelope"></i> audiracesport@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Варна, България</li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright"> 2025 GeorgAudis</p>
+            <div class="legal-links">
+                <a href="#">Политика за поверителност</a>
+                <a href="#">Условия за ползване</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Ефект при скролване за хедъра
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Гладко скролване за линковете
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
