@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audi RS7 Модели | GeorgAudis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --audi-red: #d50000;
+            --audi-black: #000000;
+            --audi-dark: #121212;
+            --audi-light: #f8f8f8;
+            --audi-gray: #e5e5e5;
+            --audi-silver: #cccccc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @font-face {
+            font-family: 'Audi Type';
+            src: url('https://www.audi.com/etc/clientlibs/audi/fonts/AudiType-VF.woff2') format('woff2-variations');
+            font-weight: 100 900;
+            font-display: swap;
+        }
+        
+        body {
+            font-family: 'Audi Type', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--audi-dark);
+            background-color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Гладко скролене */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Header стилове */
+        header {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(0, 0, 0, 0.95);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            color: var(--audi-red);
+            font-size: 24px;
+        }
+        
+        .logo-text {
+            font-family: 'Audi Type', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .logo-text span {
+            color: var(--audi-red);
+            font-weight: 800;
+        }
+        
+        /* Навигация */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 35px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            letter-spacing: 0.8px;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+            position: relative;
+            text-transform: uppercase;
+        }
+        
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--audi-red);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::before {
+            width: 100%;
+        }
+        
+        nav ul li a:hover {
+            color: var(--audi-red);
+        }
+        
+        /* Основно съдържание */
+        .main-content {
+            padding-top: 100px;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .models-section {
+            padding: 80px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 70px;
+            font-size: 42px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            position: relative;
+            color: var(--audi-dark);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--audi-red);
+            margin: 20px auto 0;
+        }
+        
+        .section-description {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--audi-dark);
+        }
+        
+        /* Карти на моделите */
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .model-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .model-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .model-image {
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        
+        .model-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--audi-red);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .model-info {
+            padding: 30px;
+        }
+        
+        .model-title {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: var(--audi-black);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .model-description {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.8;
+            color: var(--audi-dark);
+            min-height: 80px;
+        }
+        
+        .model-specs {
+            margin-bottom: 25px;
+        }
+        
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--audi-gray);
+        }
+        
+        .spec-label {
+            font-size: 14px;
+            color: var(--audi-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .spec-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--audi-black);
+        }
+        
+        .model-price {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--audi-red);
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--audi-red);
+            color: white;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #b30000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn i {
+            margin-left: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Сравнителна таблица */
+        .comparison-section {
+            background-color: var(--audi-light);
+            padding: 80px 40px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 40px;
+        }
+        
+        .comparison-table th, 
+        .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--audi-gray);
+        }
+        
+        .comparison-table th {
+            background-color: var(--audi-black);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        
+        .comparison-table tr:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.02);
+        }
+        
+        .comparison-table tr:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+        
+        .highlight {
+            color: var(--audi-red);
+            font-weight: 600;
+        }
+        
+        /* Футер */
+        footer {
+            background-color: var(--audi-dark);
+            color: white;
+            padding: 80px 40px 40px;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .footer-column h4 {
+            font-size: 18px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--audi-red);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--audi-silver);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--audi-red);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--audi-red);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            font-size: 14px;
+            color: var(--audi-silver);
+        }
+        
+        .legal-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .legal-links a {
+            color: var(--audi-silver);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .legal-links a:hover {
+            color: var(--audi-red);
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Медийни заявки */
+        @media (max-width: 1200px) {
+            .models-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 20px;
+            }
+            
+            nav ul li {
+                margin-left: 20px;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .section-description {
+                font-size: 16px;
+                padding: 0 20px;
+            }
+            
+            .models-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            
+            nav {
+                margin-top: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+            
+            .main-content {
+                padding-top: 140px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .legal-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-car logo-icon"></i>
+                <span class="logo-text">Georg<span>Audis</span></span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Начало</a></li>
+                    <li><a href="model.html">Модел</a></li>
+                    <li><a href="поръчка.html">Поръчка</a></li>
+                    <li><a href="галерия.html">Галерия</a></li>
+                    <li><a href="контакти.html">Контакти</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <section class="models-section">
+            <h2 class="section-title">Модели RS7 Sportback</h2>
+            <p class="section-description">Изберете от нашата селекция от премиум модели Audi RS7 Sportback. Всеки автомобил е създаден да превъзхожда очакванията ви с неподправена мощност и луксозен дизайн.</p>
+            
+            <div class="models-grid">
+                <!-- Модел 1 -->
+                <div class="model-card">
+                    <div class="model-image" style="background-image: url('./rs7sportback.png')">
+                        <span class="model-badge">Най-продаван</span>
+                    </div>
+                    <div class="model-info">
+                        <h3 class="model-title">RS7 Sportback</h3>
+                        <p class="model-description">Класическият RS7 Sportback с мощност от 600 к.с. и иновативни технологии за неподправено изживяване на шофиране.</p>
+                        
+                        <div class="model-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Двигател</span>
+                                <span class="spec-value">4.0 TFSI V8</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Мощност</span>
+                                <span class="spec-value">600 к.с.</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">0-100 km/h</span>
+                                <span class="spec-value">3.6 сек</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Задвижване</span>
+                                <span class="spec-value">quattro®</span>
+                            </div>
+                        </div>
+                        
+                        <div class="model-price">От 150 000 лв.</div>
+                        <a href="поръчка.html" class="btn">Поръчай сега <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Модел 2 -->
+                <div class="model-card">
+                    <div class="model-image" style="background-image: url('./rs7performance.png')">
+                        <span class="model-badge">Performance</span>
+                    </div>
+                    <div class="model-info">
+                        <h3 class="model-title">RS7 Sportback Performance</h3>
+                        <p class="model-description">Още по-мощен и динамичен, с подобрени характеристики и ексклузивни детайли за истински ентусиасти.</p>
+                        
+                        <div class="model-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Двигател</span>
+                                <span class="spec-value">4.0 TFSI V8</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Мощност</span>
+                                <span class="spec-value">630 к.с.</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">0-100 km/h</span>
+                                <span class="spec-value">3.4 сек</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Задвижване</span>
+                                <span class="spec-value">quattro®</span>
+                            </div>
+                        </div>
+                        
+                        <div class="model-price">От 180 000 лв.</div>
+                        <a href="поръчка.html" class="btn">Поръчай сега <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Модел 3 -->
+                <div class="model-card">
+                    <div class="model-image" style="background-image: url('./rs7exclusive.png')">
+                        <span class="model-badge">Exclusive</span>
+                    </div>
+                    <div class="model-info">
+                        <h3 class="model-title">RS7 Sportback Exclusive</h3>
+                        <p class="model-description">Ексклузивна серия с уникални детайли, персонализирани възможности и луксозни материали за най-взискателните клиенти.</p>
+                        
+                        <div class="model-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Двигател</span>
+                                <span class="spec-value">4.0 TFSI V8</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Мощност</span>
+                                <span class="spec-value">600 к.с.</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">0-100 km/h</span>
+                                <span class="spec-value">3.6 сек</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Задвижване</span>
+                                <span class="spec-value">quattro®</span>
+                            </div>
+                        </div>
+                        
+                        <div class="model-price">От 200 000 лв.</div>
+                        <a href="поръчка.html" class="btn">Поръчай сега <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="comparison-section">
+            <div class="models-section">
+                <h2 class="section-title">Сравнение на моделите</h2>
+                <p class="section-description">Разгледайте подробно основните характеристики на всички наши модели на едно място.</p>
+                
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Характеристика</th>
+                            <th>RS7 Sportback</th>
+                            <th>RS7 Performance</th>
+                            <th>RS7 Exclusive</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Двигател</td>
+                            <td>4.0 TFSI V8</td>
+                            <td>4.0 TFSI V8</td>
+                            <td>4.0 TFSI V8</td>
+                        </tr>
+                        <tr>
+                            <td>Мощност (к.с.)</td>
+                            <td>600</td>
+                            <td class="highlight">630</td>
+                            <td>600</td>
+                        </tr>
+                        <tr>
+                            <td>Въртящ момент (Nm)</td>
+                            <td>800</td>
+                            <td class="highlight">850</td>
+                            <td>800</td>
+                        </tr>
+                        <tr>
+                            <td>0-100 km/h</td>
+                            <td>3.6 сек</td>
+                            <td class="highlight">3.4 сек</td>
+                            <td>3.6 сек</td>
+                        </tr>
+                        <tr>
+                            <td>Макс. скорост</td>
+                            <td>250 km/h</td>
+                            <td class="highlight">305 km/h</td>
+                            <td>250 km/h</td>
+                        </tr>
+                        <tr>
+                            <td>Задвижване</td>
+                            <td>quattro®</td>
+                            <td>quattro®</td>
+                            <td>quattro®</td>
+                        </tr>
+                        <tr>
+                            <td>Цена (от)</td>
+                            <td>150 000 лв.</td>
+                            <td>180 000 лв.</td>
+                            <td>200 000 лв.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>GeorgAudis</h4>
+                <ul>
+                    <li><a href="index.html">Начало</a></li>
+                    <li><a href="model.html">Модели</a></li>
+                    <li><a href="поръчка.html">Поръчка</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Информация</h4>
+                <ul>
+                    <li><a href="галерия.html">Галерия</a></li>
+                    <li><a href="контакти.html">Контакти</a></li>
+                    <li><a href="#">За нас</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Контакти</h4>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +359 89 473 4471</li>
+                    <li><i class="fas fa-envelope"></i> audiracesport@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Варна, България</li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 GeorgAudis. Всички права запазени.</p>
+            <div class="legal-links">
+                <a href="#">Политика за поверителност</a>
+                <a href="#">Условия за ползване</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Ефект при скролване за хедъра
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Анимация за поява на елементите
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.model-card');
+            cards.forEach((card, index) => {
+                card.style.animation = `fadeIn 0.5s ease-out ${index * 0.1}s forwards`;
+                card.style.opacity = 0;
+            });
+        });
+    </script>
+</body>
+</html>

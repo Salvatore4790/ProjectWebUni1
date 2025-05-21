@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поръчка на Audi RS7 | GeorgAudis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --audi-red: #d50000;
+            --audi-black: #000000;
+            --audi-dark: #121212;
+            --audi-light: #f8f8f8;
+            --audi-gray: #e5e5e5;
+            --audi-silver: #cccccc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @font-face {
+            font-family: 'Audi Type';
+            src: url('https://www.audi.com/etc/clientlibs/audi/fonts/AudiType-VF.woff2') format('woff2-variations');
+            font-weight: 100 900;
+            font-display: swap;
+        }
+        
+        body {
+            font-family: 'Audi Type', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--audi-dark);
+            background-color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Гладко скролене */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Header стилове */
+        header {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(0, 0, 0, 0.95);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            color: var(--audi-red);
+            font-size: 24px;
+        }
+        
+        .logo-text {
+            font-family: 'Audi Type', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .logo-text span {
+            color: var(--audi-red);
+            font-weight: 800;
+        }
+        
+        /* Навигация */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 35px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            letter-spacing: 0.8px;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+            position: relative;
+            text-transform: uppercase;
+        }
+        
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--audi-red);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::before {
+            width: 100%;
+        }
+        
+        nav ul li a:hover {
+            color: var(--audi-red);
+        }
+        
+        /* Основно съдържание */
+        .main-content {
+            padding-top: 100px;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .order-section {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 42px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            position: relative;
+            color: var(--audi-dark);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--audi-red);
+            margin: 20px auto 0;
+        }
+        
+        .section-description {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--audi-dark);
+        }
+        
+        /* Форма за поръчка */
+        .order-form {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            margin-bottom: 60px;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .form-header h3 {
+            font-size: 24px;
+            color: var(--audi-black);
+            margin-bottom: 10px;
+        }
+        
+        .form-header p {
+            color: var(--audi-dark);
+            font-size: 16px;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            flex: 1;
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--audi-dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--audi-gray);
+            border-radius: 6px;
+            font-family: 'Audi Type', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--audi-red);
+            box-shadow: 0 0 0 3px rgba(213, 0, 0, 0.1);
+        }
+        
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        /* Календар за дата на доставка */
+        .date-picker {
+            position: relative;
+        }
+        
+        .date-picker-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+        
+        .date-picker-toggle i {
+            color: var(--audi-dark);
+        }
+        
+        .calendar {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            border: 1px solid var(--audi-gray);
+            border-radius: 6px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            z-index: 100;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .calendar.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .calendar-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--audi-black);
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .calendar-nav button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: var(--audi-dark);
+            transition: color 0.3s ease;
+        }
+        
+        .calendar-nav button:hover {
+            color: var(--audi-red);
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+        
+        .calendar-day {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--audi-dark);
+            padding: 10px 0;
+        }
+        
+        .calendar-date {
+            text-align: center;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .calendar-date:hover {
+            background-color: rgba(213, 0, 0, 0.1);
+        }
+        
+        .calendar-date.selected {
+            background-color: var(--audi-red);
+            color: white;
+        }
+        
+        .calendar-date.disabled {
+            color: var(--audi-silver);
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+        
+        /* Бутон за изпращане */
+        .submit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--audi-red);
+            color: white;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #b30000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .submit-btn i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .submit-btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Съобщение след изпращане */
+        .success-message {
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(0, 200, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .success-message i {
+            font-size: 50px;
+            color: #00a000;
+            margin-bottom: 20px;
+        }
+        
+        .success-message h3 {
+            font-size: 24px;
+            color: var(--audi-black);
+            margin-bottom: 15px;
+        }
+        
+        .success-message p {
+            font-size: 16px;
+            color: var(--audi-dark);
+            line-height: 1.8;
+        }
+        
+        /* Футер */
+        footer {
+            background-color: var(--audi-dark);
+            color: white;
+            padding: 80px 40px 40px;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .footer-column h4 {
+            font-size: 18px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--audi-red);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--audi-silver);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--audi-red);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--audi-red);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            font-size: 14px;
+            color: var(--audi-silver);
+        }
+        
+        .legal-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .legal-links a {
+            color: var(--audi-silver);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .legal-links a:hover {
+            color: var(--audi-red);
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Медийни заявки */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 20px;
+            }
+            
+            nav ul li {
+                margin-left: 20px;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .section-description {
+                font-size: 16px;
+                padding: 0 20px;
+            }
+            
+            .order-form {
+                padding: 30px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .calendar {
+                width: calc(100vw - 60px);
+                left: -15px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            
+            nav {
+                margin-top: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+            
+            .main-content {
+                padding-top: 140px;
+            }
+            
+            .order-section {
+                padding: 40px 20px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .legal-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-car logo-icon"></i>
+                <span class="logo-text">Georg<span>Audis</span></span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Начало</a></li>
+                    <li><a href="model.html">Модел</a></li>
+                    <li><a href="поръчка.html">Поръчка</a></li>
+                    <li><a href="галерия.html">Галерия</a></li>
+                    <li><a href="контакти.html">Контакти</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <section class="order-section">
+            <h2 class="section-title">Поръчка на Audi RS7</h2>
+            <p class="section-description">Попълнете формата по-долу, за да направите поръчка на вашия нов Audi RS7. Всички автомобили се произвеждат по поръчка с индивидуална конфигурация.</p>
+            
+            <div class="order-form">
+                <div class="form-header">
+                    <h3>Персонална информация</h3>
+                    <p>Моля, въведете вашите данни за контакт</p>
+                </div>
+                
+                <form id="orderForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">Име</label>
+                            <input type="text" id="firstName" name="firstName" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Фамилия</label>
+                            <input type="text" id="lastName" name="lastName" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Имейл адрес</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Телефон</label>
+                            <input type="tel" id="phone" name="phone" class="form-control" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-header" style="margin-top: 40px;">
+                        <h3>Конфигурация на автомобила</h3>
+                        <p>Изберете желаните спецификации за вашия Audi RS7</p>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="model">Модел</label>
+                            <select id="model" name="model" class="form-control" required>
+                                <option value="">-- Изберете модел --</option>
+                                <option value="RS7 Sportback">RS7 Sportback - 150,000 лв.</option>
+                                <option value="RS7 Sportback Performance">RS7 Sportback Performance - 180,000 лв.</option>
+                                <option value="RS7 Sportback Exclusive">RS7 Sportback Exclusive - 200,000 лв.</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="color">Цвят</label>
+                            <select id="color" name="color" class="form-control" required>
+                                <option value="">-- Изберете цвят --</option>
+                                <option value="Черен">Черен</option>
+                                <option value="Бял">Бял</option>
+                                <option value="Сребрист">Сребрист</option>
+                                <option value="Червен">Червен</option>
+                                <option value="Син">Син</option>
+                                <option value="Зелен">Зелен</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="interior">Интериор</label>
+                        <select id="interior" name="interior" class="form-control" required>
+                            <option value="">-- Изберете интериор --</option>
+                            <option value="Кожа Valcona - Черен">Кожа Valcona - Черен</option>
+                            <option value="Кожа Valcona - Бежов">Кожа Valcona - Бежов</option>
+                            <option value="Кожа Valcona - Червен">Кожа Valcona - Червен</option>
+                            <option value="Кожа Valcona - Комбинация">Кожа Valcona - Комбинация</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="wheels">Дискове</label>
+                            <select id="wheels" name="wheels" class="form-control" required>
+                                <option value="">-- Изберете дискове --</option>
+                                <option value="21" алуминиеви - Стандарт">21" алуминиеви - Стандарт</option>
+                                <option value="21" ковани - Спорт">21" ковани - Спорт</option>
+                                <option value="22" ковани - Performance">22" ковани - Performance</option>
+                                <option value="22" ковани - Exclusive">22" ковани - Exclusive</option>
+                            </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deliveryDate">Желана дата на доставка</label>
+                        <div class="date-picker">
+                            <input type="text" id="deliveryDate" name="deliveryDate" class="form-control date-picker-toggle" readonly placeholder="Изберете дата">
+                            <i class="fas fa-calendar-alt"></i>
+                            <div class="calendar" id="calendar">
+                                <div class="calendar-header">
+                                    <span class="calendar-title">Януари 2025</span>
+                                    <div class="calendar-nav">
+                                        <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                                        <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                                    </div>
+                                </div>
+                                <div class="calendar-grid" id="calendarDays">
+                                    <!-- Дни от седмицата -->
+                                    <div class="calendar-day">Пн</div>
+                                    <div class="calendar-day">Вт</div>
+                                    <div class="calendar-day">Ср</div>
+                                    <div class="calendar-day">Чт</div>
+                                    <div class="calendar-day">Пт</div>
+                                    <div class="calendar-day">Сб</div>
+                                    <div class="calendar-day">Нд</div>
+                                    <!-- Датите ще се генерират от JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="comments">Допълнителни изисквания (по избор)</label>
+                        <textarea id="comments" name="comments" class="form-control"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Изпрати поръчка <i class="fas fa-paper-plane"></i></button>
+                </form>
+                
+                <div class="success-message" id="successMessage">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Благодарим ви за поръчката!</h3>
+                    <p>Вашата поръчка е получена успешно. Нашият представител ще се свърже с вас в рамките на 24 часа за потвърждение и допълнителни детайли.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>GeorgAudis</h4>
+                <ul>
+                    <li><a href="index.html">Начало</a></li>
+                    <li><a href="model.html">Модели</a></li>
+                    <li><a href="поръчка.html">Поръчка</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Информация</h4>
+                <ul>
+                    <li><a href="галерия.html">Галерия</a></li>
+                    <li><a href="контакти.html">Контакти</a></li>
+                    <li><a href="#">За нас</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Контакти</h4>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +359 89 473 4471</li>
+                    <li><i class="fas fa-envelope"></i> audiracesport@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Варна, България</li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 GeorgAudis. Всички права запазени.</p>
+            <div class="legal-links">
+                <a href="#">Политика за поверителност</a>
+                <a href="#">Условия за ползване</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Ефект при скролване за хедъра
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Календар за избор на дата
+        const deliveryDateInput = document.getElementById('deliveryDate');
+        const calendar = document.getElementById('calendar');
+        const calendarDays = document.getElementById('calendarDays');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+        
+        let currentDate = new Date();
+        let currentMonth = currentDate.getMonth();
+        let currentYear = currentDate.getFullYear();
+        
+        // Показване/скриване на календара
+        deliveryDateInput.addEventListener('click', function() {
+            calendar.classList.toggle('active');
+            renderCalendar(currentMonth, currentYear);
+        });
+        
+        // Затваряне на календара при клик извън него
+        document.addEventListener('click', function(e) {
+            if (!deliveryDateInput.contains(e.target) && !calendar.contains(e.target)) {
+                calendar.classList.remove('active');
+            }
+        });
+        
+        // Навигация между месеците
+        prevMonthBtn.addEventListener('click', function() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            renderCalendar(currentMonth, currentYear);
+        });
+        
+        nextMonthBtn.addEventListener('click', function() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            renderCalendar(currentMonth, currentYear);
+        });
+        
+        // Генериране на календара
+        function renderCalendar(month, year) {
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const today = new Date();
+            
+            // Актуализиране на заглавието
+            const monthNames = ["Януари", "Февруари", "Март", "Април", "Май", "Юни", 
+                               "Юли", "Август", "Септември", "Октомври", "Ноември", "Декември"];
+            document.querySelector('.calendar-title').textContent = `${monthNames[month]} ${year}`;
+            
+            // Изчистване на предишните дати
+            calendarDays.innerHTML = '';
+            
+            // Добавяне на дните от седмицата
+            const weekDays = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'];
+            weekDays.forEach(day => {
+                const dayElement = document.createElement('div');
+                dayElement.className = 'calendar-day';
+                dayElement.textContent = day;
+                calendarDays.appendChild(dayElement);
+            });
+            
+            // Добавяне на празни клетки за дните от предишния месец
+            for (let i = 0; i < firstDay - 1; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-date disabled';
+                emptyDay.textContent = '';
+                calendarDays.appendChild(emptyDay);
+            }
+            
+            // Добавяне на датите от текущия месец
+            for (let i = 1; i <= daysInMonth; i++) {
+                const date = new Date(year, month, i);
+                const dateElement = document.createElement('div');
+                dateElement.className = 'calendar-date';
+                dateElement.textContent = i;
+                
+                // Затваряне на неделите
+                if (date.getDay() === 0) {
+                    dateElement.classList.add('disabled');
+                }
+                
+                // Забрана за избор на минали дати
+                if (date < today) {
+                    dateElement.classList.add('disabled');
+                }
+                
+                // Избор на дата
+                dateElement.addEventListener('click', function() {
+                    if (!this.classList.contains('disabled')) {
+                        // Премахване на селекцията от предишните дати
+                        document.querySelectorAll('.calendar-date.selected').forEach(el => {
+                            el.classList.remove('selected');
+                        });
+                        
+                        // Селектиране на текущата дата
+                        this.classList.add('selected');
+                        
+                        // Записване на избраната дата
+                        const selectedDate = new Date(year, month, i);
+                        const formattedDate = `${selectedDate.getDate().toString().padStart(2, '0')}/${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}/${selectedDate.getFullYear()}`;
+                        deliveryDateInput.value = formattedDate;
+                        
+                        // Скриване на календара
+                        setTimeout(() => {
+                            calendar.classList.remove('active');
+                        }, 200);
+                    }
+                });
+                
+                calendarDays.appendChild(dateElement);
+            }
+        }
+        
+        // Обработка на формата
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Тук бихме изпратили данните към сървър
+            // В демонстрационни цели показваме съобщение за успех
+            
+            // Скриване на формата
+            this.style.display = 'none';
+            
+            // Показване на съобщението за успех
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Промяна на заглавието на страницата
+            document.title = "Поръчката ви е изпратена | GeorgAudis";
+        });
+    </script>
+</body>
+</html>

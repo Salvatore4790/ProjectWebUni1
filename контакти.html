@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакти Audi RS7 | GeorgAudis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --audi-red: #d50000;
+            --audi-black: #000000;
+            --audi-dark: #121212;
+            --audi-light: #f8f8f8;
+            --audi-gray: #e5e5e5;
+            --audi-silver: #cccccc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @font-face {
+            font-family: 'Audi Type';
+            src: url('https://www.audi.com/etc/clientlibs/audi/fonts/AudiType-VF.woff2') format('woff2-variations');
+            font-weight: 100 900;
+            font-display: swap;
+        }
+        
+        body {
+            font-family: 'Audi Type', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--audi-dark);
+            background-color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Гладко скролене */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Header стилове */
+        header {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(0, 0, 0, 0.95);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            color: var(--audi-red);
+            font-size: 24px;
+        }
+        
+        .logo-text {
+            font-family: 'Audi Type', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .logo-text span {
+            color: var(--audi-red);
+            font-weight: 800;
+        }
+        
+        /* Навигация */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 35px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            letter-spacing: 0.8px;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+            position: relative;
+            text-transform: uppercase;
+        }
+        
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--audi-red);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::before {
+            width: 100%;
+        }
+        
+        nav ul li a:hover {
+            color: var(--audi-red);
+        }
+        
+        /* Основно съдържание */
+        .main-content {
+            padding-top: 100px;
+        }
+        
+        .contact-section {
+            padding: 80px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 42px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            position: relative;
+            color: var(--audi-dark);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--audi-red);
+            margin: 20px auto 0;
+        }
+        
+        .section-description {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--audi-dark);
+        }
+        
+        /* Контактна форма и информация */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .contact-info {
+            background-color: var(--audi-light);
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .contact-info h3 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--audi-black);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .contact-info h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--audi-red);
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--audi-red);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+            font-size: 18px;
+        }
+        
+        .contact-details h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: var(--audi-black);
+        }
+        
+        .contact-details p {
+            color: var(--audi-dark);
+            line-height: 1.6;
+        }
+        
+        .contact-form {
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        
+        .contact-form h3 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: var(--audi-black);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .contact-form h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--audi-red);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--audi-dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--audi-gray);
+            border-radius: 6px;
+            font-family: 'Audi Type', sans-serif;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--audi-red);
+            box-shadow: 0 0 0 3px rgba(213, 0, 0, 0.1);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--audi-red);
+            color: white;
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #b30000;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .submit-btn i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+        
+        .submit-btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Карта */
+        .map-container {
+            margin-top: 60px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .map {
+            width: 100%;
+            height: 400px;
+            border: none;
+            display: block;
+        }
+        
+        /* Съобщение след изпращане */
+        .success-message {
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(0, 200, 0, 0.1);
+            border-radius: 10px;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .success-message i {
+            font-size: 50px;
+            color: #00a000;
+            margin-bottom: 20px;
+        }
+        
+        .success-message h3 {
+            font-size: 24px;
+            color: var(--audi-black);
+            margin-bottom: 15px;
+        }
+        
+        .success-message p {
+            font-size: 16px;
+            color: var(--audi-dark);
+            line-height: 1.8;
+        }
+        
+        /* Работно време */
+        .hours-container {
+            margin-top: 40px;
+        }
+        
+        .hours-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .hours-table tr {
+            border-bottom: 1px solid var(--audi-gray);
+        }
+        
+        .hours-table tr:last-child {
+            border-bottom: none;
+        }
+        
+        .hours-table td {
+            padding: 12px 0;
+        }
+        
+        .hours-table td:first-child {
+            font-weight: 600;
+        }
+        
+        .hours-table td:last-child {
+            text-align: right;
+        }
+        
+        /* Футер */
+        footer {
+            background-color: var(--audi-dark);
+            color: white;
+            padding: 80px 40px 40px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .footer-column h4 {
+            font-size: 18px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--audi-red);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--audi-silver);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--audi-red);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--audi-red);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            font-size: 14px;
+            color: var(--audi-silver);
+        }
+        
+        .legal-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .legal-links a {
+            color: var(--audi-silver);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .legal-links a:hover {
+            color: var(--audi-red);
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Медийни заявки */
+        @media (max-width: 1200px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .map {
+                height: 350px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 20px;
+            }
+            
+            nav ul li {
+                margin-left: 20px;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .section-description {
+                font-size: 16px;
+                padding: 0 20px;
+            }
+            
+            .contact-info, .contact-form {
+                padding: 30px;
+            }
+            
+            .contact-item {
+                flex-direction: column;
+            }
+            
+            .contact-icon {
+                margin-bottom: 15px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            
+            nav {
+                margin-top: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+            
+            .main-content {
+                padding-top: 140px;
+            }
+            
+            .contact-section {
+                padding: 40px 20px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .legal-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-car logo-icon"></i>
+                <span class="logo-text">Georg<span>Audis</span></span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Начало</a></li>
+                    <li><a href="model.html">Модел</a></li>
+                    <li><a href="поръчка.html">Поръчка</a></li>
+                    <li><a href="галерия.html">Галерия</a></li>
+                    <li><a href="контакти.html">Контакти</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <section class="contact-section">
+            <h2 class="section-title">Свържете се с нас</h2>
+            <p class="section-description">Имате въпроси или искате да запазите час за тестова обиколка с Audi RS7? Нашият екип е на ваше разположение.</p>
+            
+            <div class="contact-container">
+                <div class="contact-info">
+                    <h3>Нашият шоурум</h3>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Адрес</h4>
+                            <p>бул. "Ян Хунияди 2", Варна, България</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Телефон</h4>
+                            <p>+359 89 473 4471</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Имейл</h4>
+                            <p>audiracesport@gmail.com</p>
+                        </div>
+                    </div>
+                    
+                    <div class="hours-container">
+                        <h4>Работно време</h4>
+                        <table class="hours-table">
+                            <tr>
+                                <td>Понеделник - Петък</td>
+                                <td>9:00 - 18:00</td>
+                            </tr>
+                            <tr>
+                                <td>Събота</td>
+                                <td>Почивен ден</td>
+                            </tr>
+                            <tr>
+                                <td>Неделя</td>
+                                <td>Почивен ден</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Изпратете запитване</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="contactName">Вашето име</label>
+                            <input type="text" id="contactName" name="contactName" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactEmail">Имейл адрес</label>
+                            <input type="email" id="contactEmail" name="contactEmail" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactPhone">Телефон</label>
+                            <input type="tel" id="contactPhone" name="contactPhone" class="form-control">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactSubject">Тема</label>
+                            <select id="contactSubject" name="contactSubject" class="form-control" required>
+                                <option value="">-- Изберете тема --</option>
+                                <option value="Test Drive">Тестова обиколка</option>
+                                <option value="Information">Информация за модел</option>
+                                <option value="Order">Поръчка на автомобил</option>
+                                <option value="Other">Друго</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactMessage">Вашето съобщение</label>
+                            <textarea id="contactMessage" name="contactMessage" class="form-control" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Изпрати запитване <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                    
+                    <div class="success-message" id="successMessage">
+                        <i class="fas fa-check-circle"></i>
+                        <h3>Благодарим ви за съобщението!</h3>
+                        <p>Вашето запитване е получено успешно. Нашият екип ще се свърже с вас възможно най-скоро.</p>
+                    </div>
+                </div>
+            </div>
+            
+           <div class="map-container">
+    <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2908.156090851378!2d27.91448631548371!3d43.20425397913838!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40a4539e3e8e0a6b%3A0x3cf5d6e0a1a4d9c1!2z0LHRg9C7LiDigJ7Qr9C90Lgg0KfRg9C90LjQuNC00LDigJwgMiwgOTAwMCDQktCw0YDQvtC90LA!5e0!3m2!1sbg!2sbg!4v1620000000000!5m2!1sbg!2sbg" 
+        class="map" 
+        allowfullscreen="" 
+        loading="lazy">
+    </iframe>
+</div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>GeorgAudis</h4>
+                <ul>
+                    <li><a href="index.html">Начало</a></li>
+                    <li><a href="model.html">Модели</a></li>
+                    <li><a href="поръчка.html">Поръчка</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Информация</h4>
+                <ul>
+                    <li><a href="галерия.html">Галерия</a></li>
+                    <li><a href="контакти.html">Контакти</a></li>
+                    <li><a href="#">За нас</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Контакти</h4>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +359 89 473 4471</li>
+                    <li><i class="fas fa-envelope"></i> audiracesport@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Варна, България</li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 GeorgAudis. Всички права запазени.</p>
+            <div class="legal-links">
+                <a href="#">Политика за поверителност</a>
+                <a href="#">Условия за ползване</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Ефект при скролване за хедъра
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Обработка на контактната форма
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Тук бихме изпратили данните към сървър
+            // В демонстрационни цели показваме съобщение за успех
+            
+            // Скриване на формата
+            this.style.display = 'none';
+            
+            // Показване на съобщението за успех
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Промяна на заглавието на страницата
+            document.title = "Съобщението ви е изпратено | GeorgAudis";
+        });
+    </script>
+</body>
+</html>

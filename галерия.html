@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Галерия Audi RS7 | GeorgAudis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --audi-red: #d50000;
+            --audi-black: #000000;
+            --audi-dark: #121212;
+            --audi-light: #f8f8f8;
+            --audi-gray: #e5e5e5;
+            --audi-silver: #cccccc;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @font-face {
+            font-family: 'Audi Type';
+            src: url('https://www.audi.com/etc/clientlibs/audi/fonts/AudiType-VF.woff2') format('woff2-variations');
+            font-weight: 100 900;
+            font-display: swap;
+        }
+        
+        body {
+            font-family: 'Audi Type', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--audi-dark);
+            background-color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Гладко скролене */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Header стилове */
+        header {
+            background-color: rgba(0, 0, 0, 0.9);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(0, 0, 0, 0.95);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            color: var(--audi-red);
+            font-size: 24px;
+        }
+        
+        .logo-text {
+            font-family: 'Audi Type', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .logo-text span {
+            color: var(--audi-red);
+            font-weight: 800;
+        }
+        
+        /* Навигация */
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 35px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            letter-spacing: 0.8px;
+            padding: 8px 0;
+            transition: all 0.3s ease;
+            position: relative;
+            text-transform: uppercase;
+        }
+        
+        nav ul li a::before {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--audi-red);
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::before {
+            width: 100%;
+        }
+        
+        nav ul li a:hover {
+            color: var(--audi-red);
+        }
+        
+        /* Основно съдържание */
+        .main-content {
+            padding-top: 100px;
+        }
+        
+        .gallery-section {
+            padding: 80px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 42px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            position: relative;
+            color: var(--audi-dark);
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--audi-red);
+            margin: 20px auto 0;
+        }
+        
+        .section-description {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 50px;
+            font-size: 18px;
+            line-height: 1.8;
+            color: var(--audi-dark);
+        }
+        
+        /* Галерия */
+        .gallery-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .gallery-tab {
+            padding: 12px 25px;
+            background-color: var(--audi-light);
+            border: none;
+            border-radius: 30px;
+            font-family: 'Audi Type', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .gallery-tab.active, .gallery-tab:hover {
+            background-color: var(--audi-red);
+            color: white;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            aspect-ratio: 16/9;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            padding: 30px 20px 20px;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .gallery-description {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* Lightbox модал */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .lightbox.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 80vh;
+            display: block;
+            border-radius: 5px;
+        }
+        
+        .lightbox-caption {
+            color: white;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 18px;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        
+        .lightbox-close:hover {
+            color: var(--audi-red);
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            transform: translateY(-50%);
+        }
+        
+        .lightbox-nav button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .lightbox-nav button:hover {
+            background-color: var(--audi-red);
+        }
+        
+        /* Футер */
+        footer {
+            background-color: var(--audi-dark);
+            color: white;
+            padding: 80px 40px 40px;
+            margin-top: 60px;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .footer-column h4 {
+            font-size: 18px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h4::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--audi-red);
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-column ul li a {
+            color: var(--audi-silver);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        .footer-column ul li a:hover {
+            color: var(--audi-red);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--audi-red);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .copyright {
+            font-size: 14px;
+            color: var(--audi-silver);
+        }
+        
+        .legal-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .legal-links a {
+            color: var(--audi-silver);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+        
+        .legal-links a:hover {
+            color: var(--audi-red);
+        }
+        
+        /* Анимации */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        /* Медийни заявки */
+        @media (max-width: 1200px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 20px;
+            }
+            
+            nav ul li {
+                margin-left: 20px;
+            }
+            
+            .section-title {
+                font-size: 36px;
+            }
+            
+            .section-description {
+                font-size: 16px;
+                padding: 0 20px;
+            }
+            
+            .gallery-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .gallery-tab {
+                width: 100%;
+                max-width: 250px;
+                text-align: center;
+            }
+            
+            .lightbox-nav button {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-container {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+            
+            nav {
+                margin-top: 15px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            nav ul li {
+                margin: 0 10px 10px;
+            }
+            
+            .section-title {
+                font-size: 30px;
+            }
+            
+            .main-content {
+                padding-top: 140px;
+            }
+            
+            .gallery-section {
+                padding: 40px 20px;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .legal-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="header-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-car logo-icon"></i>
+                <span class="logo-text">Georg<span>Audis</span></span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Начало</a></li>
+                    <li><a href="model.html">Модел</a></li>
+                    <li><a href="поръчка.html">Поръчка</a></li>
+                    <li><a href="галерия.html">Галерия</a></li>
+                    <li><a href="контакти.html">Контакти</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <main class="main-content">
+        <section class="gallery-section">
+            <h2 class="section-title">Галерия Audi RS7</h2>
+            <p class="section-description">Разгледайте нашата ексклузивна галерия с изображения на Audi RS7 Sportback. Всички автомобили са напълно персонализирани според предпочитанията на нашите клиенти.</p>
+            
+            <div class="gallery-tabs">
+                <button class="gallery-tab active" data-category="all">Всички</button>
+                <button class="gallery-tab" data-category="exterior">Екстериор</button>
+                <button class="gallery-tab" data-category="interior">Интериор</button>
+                <button class="gallery-tab" data-category="details">Детайли</button>
+                <button class="gallery-tab" data-category="performance">Производителност</button>
+            </div>
+            
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Екстериор -->
+                <div class="gallery-item" data-category="exterior">
+                    <img src="./vunshenizgled.png" alt="Audi RS7 Sportback - Преден изглед" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Преден изглед</h3>
+                        <p class="gallery-description">Агресивната предница на RS7 с характерната за Audi Singleframe решетка</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="exterior">
+                    <img src="./otstrani1.png" alt="Audi RS7 Sportback - Страничен изглед" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Страничен изглед</h3>
+                        <p class="gallery-description">Спортен силует с характерна линия на покрива</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="exterior">
+                    <img src="./otzad.png" alt="Audi RS7 Sportback - Заден изглед" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Заден изглед</h3>
+                        <p class="gallery-description">OLED светлини и спортна дифузна система</p>
+                    </div>
+                </div>
+                
+                <!-- Интериор -->
+                <div class="gallery-item" data-category="interior">
+                    <img src="./interior.png" alt="Audi RS7 Sportback - Интериор" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Луксозен интериор</h3>
+                        <p class="gallery-description">Висококачествени материали и спортни седалки RS</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="interior">
+                    <img src="./tablo.png" alt="Audi RS7 Sportback - Табло" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Виртуален кокпит</h3>
+                        <p class="gallery-description">Цифрово табло Audi Virtual Cockpit с RS специфични дисплеи</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="interior">
+                    <img src="./audio.png" alt="Audi RS7 Sportback - Audio" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Звукова система</h3>
+                        <p class="gallery-description">Висококачествена звукова система Bang & olufsen с изкачащи говорители</p>
+                    </div>
+                </div>
+                
+                <!-- Детайли -->
+                <div class="gallery-item" data-category="details">
+                    <img src="./diskove.png" alt="Audi RS7 Sportback - Дискове" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Спортни дискове</h3>
+                        <p class="gallery-description">22-инчови ковани дискове с високо производителни гуми</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="details">
+                    <img src="./kurtiq.png" alt="Audi RS7 Sportback - Скоростна Кутия" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">8-Степена ZF</h3>
+                        <p class="gallery-description">Aвтоматична скоростна кутия Tiptronic последно поколение </p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="details">
+                    <img src="./auspuh.png" alt="Audi RS7 Sportback - Ауспух" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Спортен ауспух</h3>
+                        <p class="gallery-description">Двойна ауспухна система с регулируем звук</p>
+                    </div>
+                </div>
+                
+                <!-- Производителност -->
+                <div class="gallery-item" data-category="performance">
+                    <img src="./dvigatel.png" alt="Audi RS7 Sportback - Двигател" class="gallery-image">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">V8 Двигател</h3>
+                        <p class="gallery-description">4.0 TFSI битурбо двигател с 600 к.с. и 800 Nm въртящ момент</p>
+                    </div>
+                </div>
+                
+            
+            </div>
+        </section>
+    </main>
+    
+    <!-- Lightbox модал -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <span class="lightbox-close" id="lightboxClose">&times;</span>
+            <img src="" alt="" class="lightbox-image" id="lightboxImage">
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+            <div class="lightbox-nav">
+                <button id="lightboxPrev"><i class="fas fa-chevron-left"></i></button>
+                <button id="lightboxNext"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>GeorgAudis</h4>
+                <ul>
+                    <li><a href="index.html">Начало</a></li>
+                    <li><a href="model.html">Модели</a></li>
+                    <li><a href="поръчка.html">Поръчка</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Информация</h4>
+                <ul>
+                    <li><a href="галерия.html">Галерия</a></li>
+                    <li><a href="контакти.html">Контакти</a></li>
+                    <li><a href="#">За нас</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Контакти</h4>
+                <ul>
+                    <li><i class="fas fa-phone"></i> +359 89 473 4471</li>
+                    <li><i class="fas fa-envelope"></i> audiracesport@gmail.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Варна, България</li>
+                </ul>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p class="copyright">© 2025 GeorgAudis. Всички права запазени.</p>
+            <div class="legal-links">
+                <a href="#">Политика за поверителност</a>
+                <a href="#">Условия за ползване</a>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Ефект при скролване за хедъра
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Филтриране на галерията по категории
+        const tabs = document.querySelectorAll('.gallery-tab');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Премахване на активния клас от всички табове
+                tabs.forEach(t => t.classList.remove('active'));
+                // Добавяне на активния клас към текущия таб
+                this.classList.add('active');
+                
+                const category = this.dataset.category;
+                
+                // Филтриране на елементите
+                galleryItems.forEach(item => {
+                    if (category === 'all' || item.dataset.category === category) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                        }, 50);
+                    } else {
+                        item.style.opacity = '0';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+        
+        // Lightbox функционалност
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightboxImage');
+        const lightboxCaption = document.getElementById('lightboxCaption');
+        const lightboxClose = document.getElementById('lightboxClose');
+        const lightboxPrev = document.getElementById('lightboxPrev');
+        const lightboxNext = document.getElementById('lightboxNext');
+        
+        let currentImageIndex = 0;
+        const images = Array.from(document.querySelectorAll('.gallery-image'));
+        const captions = Array.from(document.querySelectorAll('.gallery-overlay'));
+        
+        // Отваряне на lightbox
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                currentImageIndex = index;
+                updateLightbox();
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        // Затваряне на lightbox
+        lightboxClose.addEventListener('click', function() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Навигация между изображенията
+        lightboxPrev.addEventListener('click', showPrevImage);
+        lightboxNext.addEventListener('click', showNextImage);
+        
+        // Клавиатурна навигация
+        document.addEventListener('keydown', function(e) {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                } else if (e.key === 'ArrowLeft') {
+                    showPrevImage();
+                } else if (e.key === 'ArrowRight') {
+                    showNextImage();
+                }
+            }
+        });
+        
+        function updateLightbox() {
+            const imgSrc = images[currentImageIndex].getAttribute('src');
+            const caption = captions[currentImageIndex].querySelector('.gallery-title').textContent + ' - ' + 
+                            captions[currentImageIndex].querySelector('.gallery-description').textContent;
+            
+            lightboxImage.setAttribute('src', imgSrc);
+            lightboxImage.setAttribute('alt', caption);
+            lightboxCaption.textContent = caption;
+        }
+        
+        function showPrevImage() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            updateLightbox();
+        }
+        
+        function showNextImage() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            updateLightbox();
+        }
+    </script>
+</body>
+</html>
